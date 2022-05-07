@@ -19,14 +19,23 @@ class Layer:
         #assert self.weights.shape[1] == input.shape[0]
 
         output = np.dot(input, self.weights) + self.bias
+        output = self.activate(output)
         self.output = output
 
         return output
 
-    def activate(self):
+    def activate(self, x):
         # Apply the activation function to the layer output
-        pass
+        if self.activation == 'relu':
+            return self.__ReLu(x)
+        elif self.activation == 'softmax':
+            return self.__Softmax(x)
             
     # Define private method for the activation functions
     def __ReLu(self, x):
-        return x
+        return np.maximum(0, x)
+
+    def __Softmax(self, x):
+        exp_vals = np.exp(x - np.max(x, axis = 1, keepdims = True))
+        probs = exp_vals / np.sum(exp_vals, axis = 1, keepdims = True)
+        return probs

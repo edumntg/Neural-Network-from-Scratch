@@ -1,16 +1,16 @@
 from Neuron import *
 from Layer import *
+from nnfs.datasets import spiral_data
+
+
 if __name__ == '__main__':
+    X, y = spiral_data(100, 3)
 
-    X = np.array([
-        [1, 2, 3, 2.5],
-        [2, 5, -1, 2],
-        [-1.5, 2.7, 3.3, -0.8]
-    ])
+    dense1 = Layer(2, 3, activation = 'relu')
+    dense2 = Layer(3, 3, activation = 'softmax')
 
-    layer1 = Layer(4, 5)
-    layer2 = Layer(5, 2)
+    dense1.forward(X)
+    dense2.forward(dense1.output)
+    print(dense2.output[:5])
 
-    layer1.forward(X)
-    layer2.forward(layer1.output)
-    print(layer2.output)
+    
